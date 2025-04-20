@@ -36,7 +36,7 @@ win_height = 770 #высота экрана
 
 window = display.set_mode((win_width, win_height)) #создание игрового окна
 display.set_caption('ping pong') #название для окна
-background = transform.scale(image.load("bg_bounty.jpg), (win_width, win_height)) #подгон заднего фона под размеры экрана
+background = transform.scale(image.load("bg_bounty.jpg"), (win_width, win_height)) #подгон заднего фона под размеры экрана
 window.blit(background, (0, 0)) #фон на экран
 
 gameOn = True
@@ -44,19 +44,19 @@ gameOver = False
 clock = time.Clock()
 FPS = 60
 
-player_l = Player('b1.png', 5, 500, 10, 70, 170) #спрайт игрока1
-player_l = Player('b2.png', 995, 500, 10, 70, 170) #спрайт игрока1
-ball = GameSprite('kokos.png') #спрацт кокоса
+player_l = Player('b1.png', 5, 385, 10, 70, 170) #спрайт игрока1
+player_l = Player('b2.png', 995, 385, 10, 70, 170) #спрайт игрока1
+ball = GameSprite('kokos.png', 500, 385, 9, 150, 150) #спрацт кокоса
 
 speed_x = 3
 speed_y = 3
 
 #игровой цикл
-while game:
+while gameOn:
 
     for e in event.get():
         if e.type == QUIT:
-            game = False
+            gameOn = False
             
     if gameOver != True:
 
@@ -66,7 +66,12 @@ while game:
         player.reset()
         player.update_r() #обновление игрока в игре
         player.reset()
-        
+    
+        ball.rect.x += speed_x
+        ball.rect.y += speed_y
 
+    if ball.rect.y > win_height - 50 or ball.rect.y < 0:
+        speed_y *= -1
+    
     display.update()
     clock.tick(FPS)
